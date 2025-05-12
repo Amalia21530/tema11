@@ -1,0 +1,66 @@
+let alfabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+let index = 0;
+let afiseazaLitera = false;
+let interval = 500;
+let ultimaSchimbare = 0;
+let literaCurenta = 'A';
+let culoareCurenta;
+
+let startButton, stopButton;
+let canvasWidth = 600;
+let canvasHeight = 300;
+
+function setup() {
+    createCanvas(canvasWidth, canvasHeight);
+    textAlign(CENTER, CENTER);
+    textSize(120);
+    frameRate(60);
+    culoareCurenta = culoareAleatoare();
+
+    // Buton START
+    startButton = createButton('START');
+    startButton.position(canvasWidth - 100, 50); // mai aproape de canvas
+    startButton.style('background-color', 'green');
+    startButton.style('color', 'white');
+    startButton.style('font-size', '20px');
+    startButton.mousePressed(porneste);
+
+    // Buton STOP
+    stopButton = createButton('STOP');
+    stopButton.position(canvasWidth - 100, 100); // sub START
+    stopButton.style('background-color', 'red');
+    stopButton.style('color', 'white');
+    stopButton.style('font-size', '20px');
+    stopButton.mousePressed(opreste);
+
+
+    function draw() {
+        background(255);
+
+        if (afiseazaLitera && millis() - ultimaSchimbare >= interval) {
+            literaCurenta = alfabet[index];
+            culoareCurenta = culoareAleatoare();
+            index = (index + 1) % alfabet.length;
+            ultimaSchimbare = millis();
+        }
+
+        fill(culoareCurenta);
+        text(literaCurenta, width / 2, height / 2);
+    }
+
+    function porneste() {
+        if (!afiseazaLitera) {
+            afiseazaLitera = true;
+            ultimaSchimbare = millis();
+        }
+    }
+
+    function opreste() {
+        afiseazaLitera = false;
+    }
+
+    function culoareAleatoare() {
+        return color(random(255), random(255), random(255));
+
+    }
+}
